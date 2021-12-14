@@ -1,81 +1,67 @@
-#INSTRUCTIONS
-#Enter LOCATION A/B in captial letters
-#Enter Status O  or 1 where 0 means CLEAN and 1 means DIRTY
-
-def vacuum_world():
-    goal_state = {'A': '0', 'B': '0'}
-
-    location_input = input("Enter Location of Vacuum") 
-    status_input = input("Enter status of " + location_input)
-    status_input_complement = input("Enter status of other room")
-    print("Initial Location Condition" + str(goal_state))
-
-    if location_input == 'A':
-        # Location A is Dirty.
-        print("Vacuum is placed in Location A")
-        if status_input == '1':
-            print("Location A is Dirty.")
-            goal_state['A'] = '0'
-            print("SUCK the dirt from Location A")
-            print("Location A has been Cleaned.")
-
-            if status_input_complement == '1':
-                # if B is Dirty
-                print("Location B is Dirty.")
-                print("Moving right to the Location B. ")
-                print("Move Right")
-                goal_state['B'] = '0'
-                print("Suck the dirt from Location B. ")
-                print("Location B has been Cleaned. ")
-            else:
-                print("No action")
-                print("Location B is already clean.")
-
-        if status_input == '0':
-            print("Location A is already clean ")
-            if status_input_complement == '1':# if B is Dirty
-                print("Location B is Dirty.")
-                print("Moving RIGHT to the Location B. ")
-                goal_state['B'] = '0'
-                print("Suck the dirt from Location B. ")
-                print("Location B has been Cleaned. ")
-            else:
-                print("No action ")
-                print("Location B is already clean.")
-
-    else:
-        print("Vacuum is placed in location B")
-        # Location B is Dirty.
-        if status_input == '1':
-            print("Location B is Dirty.")
-            print("Suck the dirt from Location B. ")
-            goal_state['B'] = '0'
-            print("Location B has been Cleaned.")
-
-            if status_input_complement == '1':
-                # if A is Dirty
-                print("Location A is Dirty.")
-                print("Moving LEFT to the Location A. ")
-                goal_state['A'] = '0'
-                print("Suck the dirt from Location A")
-                print("Location A has been Cleaned.")
+def clean(floor):
+    m=len(floor)
+    n=len(floor[0])
+    for i in range(m):
+        if i%2==0:
+            for j in range(n):
+                print("Enter the status of the location "+sample_floor[i][j])
+                floor[i][j]=int(input())
+                if(floor[i][j]==1):
+                    print("the vaccum cleaner is at location "+sample_floor[i][j])
+                    print("STATUS:DIRTY")
+                    floor[i][j]=0
+                    print_floor(floor,i,j,1)
+                else:
+                    print("the vaccum cleaner is at location "+sample_floor[i][j])
+                    print("STATUS:CLEAN")
+                    print_floor(floor,i,j,0)
 
         else:
-            print("Location B is already clean.")
+            for j in range(n-1,-1,-1):
+                print("Enter the status of the location "+sample_floor[i][j])
+                floor[i][j]=int(input())
+                if(floor[i][j]==1):
+                    print("the vaccum cleaner is at location "+sample_floor[i][j])
+                    print("STATUS:DIRTY")
+                    floor[i][j]=0
+                    print_floor(floor,i,j,1)
+                else:
+                    print("the vaccum cleaner is at location "+sample_floor[i][j])
+                    print("STATUS:CLEAN")
+                    print_floor(floor,i,j,0)
+    print("STATUS: ALL STATES CLEANED")
+    print_floor(floor,i,j,2)
+    return
+def print_floor(floor, row, col,m): # row, col represent the current vacuum cleaner position
+    if m==0:
+        print(sample_floor[row][col]+ " is clean vaccume cleaner move to the next location")
+        print(f"""
+        {floor[0]}
+        {floor[1]}
+        """)
+        print("-----------------")
+    elif m==1:
+        print(sample_floor[row][col]+ " was dirty vaccume cleaner cleaned and moving to the next location")
+        print(f"""
+        {floor[0]}
+        {floor[1]}
+        """)
+        print("-----------------")
+    else:
+        print(f"""
+        {floor[0]}
+        {floor[1]}
+        """)
+# Test 1
+floor = [[0,0],
+         [0,0]]
+sample_floor=[["A","B"],
+              ["C","D"]]
+print("The sample floor is :")
+print(f"""
+      {sample_floor[0]}
+      {sample_floor[1]}
+      """
+      )
 
-            if status_input_complement == '1':  # if A is Dirty
-                print("Location A is Dirty.")
-                print("Moving LEFT to the Location A. ")
-                goal_state['A'] = '0'
-                print("Suck the dirt from location A")
-                print("Location A has been Cleaned. ")
-            else:
-                print("No action ")
-                print("Location A is already clean.")
-
-    # done cleaning
-    print("GOAL STATE: ")
-    print(goal_state)
-
-
-vacuum_world()
+clean(floor)
